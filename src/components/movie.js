@@ -9,6 +9,20 @@ import {fetchMovie} from "../actions/movieActions";
 
 class Movie extends Component {
 
+    //make constructor that takes in prop look at the login.js and cpy the this.state and change the state details
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            details:{
+                title: '',
+                releaseDate: '',
+                Genre: '',
+                actor: ''
+            }
+        };
+    }
+
     componentDidMount() {
         const {dispatch} = this.props;
         if (this.props.selectedMovie == null)
@@ -31,13 +45,13 @@ class Movie extends Component {
                     <Glyphicon glyph={'star'} /> {review.rating}
                 </p>
             );
-        }
+        };
 
         const DetailInfo = ({currentMovie}) => {
             if (!currentMovie) { // evaluates to true if currentMovie is null
                 return <div>Loading...</div>;
             }
-            return (
+            return (//make a <Form> under </ListGroup>
                 <Panel>
                     <Panel.Heading>Movie Detail</Panel.Heading>
                     <Panel.Body><Image className="image" src={currentMovie.imageUrl} thumbnail /></Panel.Body>

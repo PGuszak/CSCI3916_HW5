@@ -41,7 +41,7 @@ class Register extends Component {
                         Email
                     </Col>
                     <Col sm={10}>
-                        <FormControl onChange={this.updateDetails} value={this.state.details.name} type="text" placeholder="Name" />
+                        <FormControl onChange={this.updateDetails} value={this.state.details.name} type="text" placeholder="Email" />
                     </Col>
                 </FormGroup>
 
