@@ -15,10 +15,10 @@ class Movie extends Component {
 
         this.state = {
             details:{
-                title: '',
-                releaseDate: '',
-                Genre: '',
-                actor: ''
+                title: "",
+                releaseDate: "",
+                Genre: "",
+                actor: ""
             }
         };
     }
