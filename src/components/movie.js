@@ -23,10 +23,11 @@ class Movie extends Component {
     //make constructor that takes in prop look at the login.js and cpy the this.state and change the state details
     constructor(props) {
         super(props);
-        //this.Reload = this.Reload.bind(this);  //kind of like prototypes for the function call
         this.PostReview = this.PostReview.bind(this);
+        this.updateDetails = this.updateDetails.bind(this);
         this.state = {
             details:{
+                MovieTitle: "",
                 review: "",
                 rating: 0
             }
@@ -34,9 +35,23 @@ class Movie extends Component {
         };
     }
 
+    updateDetails(event)
+    {
+        let updateDetails = Object.assign({}, this.state.details);
+
+        updateDetails[event.target.id] = event.target.value;
+        this.setState({
+            details: updateDetails
+        });
+    }
     PostReview()
     {
         const env = runtimeEnv();
+        var item = {
+            MovieTitle: this.props.selectedMovie.title,
+            review: this.state.details.review,
+            rating: this.state.details.rating
+        };
         return fetch(`${env.REACT_APP_API_URL}/review`, {
             method: 'POST',
             headers: {
@@ -44,6 +59,7 @@ class Movie extends Component {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
             },
+            body: JSON.stringify(item),
             mode: 'cors'})
             .then( (response) => {
                 if (!response.ok) {
@@ -52,6 +68,7 @@ class Movie extends Component {
                 return response.json();
             })
             .then( (res) => {
+                console.log(res);
                 window.location.reload();
             })
             .catch( (e) => console.log(e) );
@@ -95,38 +112,37 @@ class Movie extends Component {
                     </ListGroup>
                     <Panel.Body><ReviewInfo reviews={currentMovie.reviews} /></Panel.Body>
 
-
-                    <Form horizontal>
-                        <FormGroup controlId="review">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Review
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl onChange={this.updateDetails} value={this.state.details.review} type="text" placeholder="Enter review here" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="rating">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Rating
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl onChange={this.updateDetails} value={this.state.details.rating} type="number" placeholder="Rating" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                                <Button onClick={this.PostReview}>PostRating</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
-
                 </Panel>
             );
         };
         return (
-            <DetailInfo currentMovie={this.props.selectedMovie} />
+            <div>
+                <DetailInfo currentMovie={this.props.selectedMovie} />
+                <Form horizontal>
+                    <FormGroup controlId="review">
+                        <Col componentClass={ControlLabel} sm={2}>
+                            Review
+                        </Col>
+                        <Col sm={10}>
+                            <FormControl onChange={this.updateDetails} value={this.state.details.review} type="text" placeholder="Enter review here" />
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup controlId="rating">
+                        <Col componentClass={ControlLabel} sm={2}>
+                            Rating
+                        </Col>
+                        <Col sm={10}>
+                            <FormControl onChange={this.updateDetails} value={this.state.details.rating} type="number" placeholder="Rating" />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col smOffset={2} sm={10}>
+                            <Button onClick={this.PostReview}>PostReview</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </div>
         );
     }
 }
