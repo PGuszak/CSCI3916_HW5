@@ -36,9 +36,9 @@ class MovieList extends Component {
             if (!movieList) { // evaluates to true if currentMovie is null
                 return <div>Loading...</div>;
             }
-            console.log(movieList);
-            console.log(this.props);
-            console.log("Hello!!!!!!!!!!!!!!!!!!!!");
+            //console.log(movieList);
+            //console.log(this.props);
+            //console.log("Hello!!!!!!!!!!!!!!!!!!!!");
             return (
                 <Carousel onSelect={this.handleSelect}>
                     {movieList.map((movie) =>
@@ -50,7 +50,7 @@ class MovieList extends Component {
                         </div>
                         <Carousel.Caption>
                             <h3>{movie.title}</h3>
-                            <Glyphicon glyph={'star'} /> {movie.avgRating} &nbsp;&nbsp; {movie.releaseDate}
+                            <Glyphicon glyph={'star'} /> {movie.rating} &nbsp;&nbsp; {movie.releaseDate}
                         </Carousel.Caption>
                     </Carousel.Item>)}
             </Carousel>);
